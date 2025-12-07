@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TileForge — Tilemap Painter & Export (Pro)</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- JS libraries for export/zip (used in script.js) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <h1>TileForge</h1>
+        <p class="tag">Tilemap Painter • Multi-layer • Auto-tiling • Export PNG / TMX / JSON</p>
+      </div>
+
+      <div class="top-actions">
+        <label class="file-btn">Tileset
+          <input id="tilesetUpload" type="file" accept="image/*">
+        </label>
+
+        <label class="file-btn">Import Project
+          <input id="importProject" type="file" accept=".json">
+        </label>
+
+        <button id="exportPNG" class="btn">Export PNG</button>
+        <button id="exportHighPNG" class="btn">Export Hi-Res PNG</button>
+        <button id="exportJSON" class="btn">Export JSON</button>
+        <button id="exportTMX" class="btn">Export TMX</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <aside class="sidebar">
+        <section class="panel">
+          <h3>Map</h3>
+          <label>Map Width
+            <input id="mapW" type="number" min="8" max="256" value="32">
+          </label>
+          <label>Map Height
+            <input id="mapH" type="number" min="8" max="256" value="32">
+          </label>
+          <label>Tile Size (px)
+            <input id="tileSize" type="number" min="8" max="128" value="32">
+          </label>
+          <button id="resizeMap" class="btn">Resize Map</button>
+        </section>
+
+        <section class="panel">
+          <h3>Layers</h3>
+          <div id="layersList" class="layers-list"></div>
+          <div class="layer-controls">
+            <button id="addLayer" class="btn small">+ Add Layer</button>
+            <button id="removeLayer" class="btn small">Remove Layer</button>
+          </div>
+          <label><input id="showGrid" type="checkbox" checked> Show Grid</label>
+        </section>
+
+        <section class="panel">
+          <h3>Tools</h3>
+          <div class="tools">
+            <button class="tool btn selected" data-tool="brush">Brush</button>
+            <button class="tool btn" data-tool="bucket">Bucket</button>
+            <button class="tool btn" data-tool="erase">Erase</button>
+            <button class="tool btn" data-tool="rect">Rect</button>
+            <button class="tool btn" data-tool="picker">Eyedrop</button>
+          </div>
+
+          <label>Brush Size
+            <input id="brushSize" type="range" min="1" max="8" value="1">
+          </label>
+
+          <label><input id="autoTile" type="checkbox"> Auto-tiling</label>
+        </section>
+
+        <section class="panel">
+          <h3>Palette</h3>
+          <div id="tilesetPreview" class="tileset-preview">No tileset loaded</div>
+          <div id="palette" class="palette"></div>
+          <div class="palette-controls">
+            <button id="clearPalette" class="btn small">Clear</button>
+            <button id="exportPalette" class="btn small">Export Palette</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>Project</h3>
+          <button id="saveProject" class="btn">Save Project (.json)</button>
+          <button id="undoBtn" class="btn">Undo</button>
+          <button id="redoBtn" class="btn">Redo</button>
+          <label>Auto-save
+            <input id="autosave" type="checkbox" checked>
+          </label>
+        </section>
+
+        <section class="panel">
+          <h3>Preview & Info</h3>
+          <div id="miniPreview" class="mini"></div>
+          <div class="info">
+            <div>Seed: <span id="seedLabel">random</span></div>
+            <div>Mode: <span id="modeLabel">Paint</span></div>
+            <div id="sizeLabel">32 × 32</div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="canvas-area">
+        <div class="canvas-top">
+          <div class="left-tools">
+            <label>Zoom
+              <input id="zoomRange" type="range" min="0.25" max="3" step="0.05" value="1">
+            </label>
+            <button id="fitBtn" class="btn small">Fit</button>
+          </div>
+
+          <div class="right-tools">
+            <label>Snap to grid
+              <input id="snapGrid" type="checkbox" checked>
+            </label>
+            <label>Show collision
+              <input id="showCollision" type="checkbox">
+            </label>
+          </div>
+        </div>
+
+        <div id="viewport" class="viewport">
+          <canvas id="mapCanvas"></canvas>
+          <canvas id="uiCanvas" class="overlay"></canvas>
+        </div>
+
+        <div class="bottom-bar">
+          <div class="status">Ready — Paint tiles, export when done.</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>TileForge — Built with HTML/CSS/JS. No backend required.</div>
+      <div>Export: PNG, JSON, TMX — Works with Tiled, Unity, Godot.</div>
+    </footer>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
